@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>A load of CRUD</title>
+</head>
+<body>
+	<h2>Ola, make a taco: </h2>
+	<form action="/tacos" method="POST">
+		<input type="text" placeholder="name" name="name">
+		<input type="text" placeholder="toppings" name="toppings">
+		<button type="submit">Create</button>
+	</form>
+	<button id="update-button">Let Edgar ruin a taco</button>
+	<button id="delete-button">Clean up after Edgar</button>
+	<div id="message"></div>
+	<h2>Tacos:</h2>
+	<ul class="tacos">
+		<% for (var i = 0; i < tacos.length; i++) { %>
+		<li class="taco">
+			<span><%= tacos[i].name %></span>:
+			<span><%= tacos[i].toppings %></span>
+		</li>
+		<% } %>
+	</ul>
+	<script type="text/javascript" src="/main.js"></script>
+</body>
+</html>
