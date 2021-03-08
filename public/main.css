@@ -1,0 +1,31 @@
+body {
+	font-family: "Verdana", "sans-serif";
+}
+.container {
+	max-width: 1100px;
+	margin: auto;
+}
+.full {
+	float: left;
+	width: 100%;
+}
+.half {
+	float: left;
+	width: 50%;
+}
+.box {
+	border: 1px solid #333;
+	border-radius: 5px;
+	padding: 0px 10px;
+	margin: 8px 4px;
+}
+.row {
+	margin: 10px 0px;
+}
+button {
+	margin: 10px 0px;
+	font-size: 1em;
+}
+input {
+	font-size: 1em;
+}

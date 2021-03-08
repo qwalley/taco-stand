@@ -3,26 +3,81 @@
 <head>
 	<meta charset="UTF-8">
 	<title>A load of CRUD</title>
+	<link rel="stylesheet" type="text/css" href="/main.css">
 </head>
 <body>
-	<h2>Ola, make a taco: </h2>
-	<form action="/tacos" method="POST">
-		<input type="text" placeholder="name" name="name">
-		<input type="text" placeholder="toppings" name="toppings">
-		<button type="submit">Create</button>
-	</form>
-	<button id="update-button">Let Edgar ruin a taco</button>
-	<button id="delete-button">Clean up after Edgar</button>
-	<div id="message"></div>
-	<h2>Tacos:</h2>
-	<ul class="tacos">
-		<% for (var i = 0; i < tacos.length; i++) { %>
-		<li class="taco">
-			<span><%= tacos[i].name %></span>:
-			<span><%= tacos[i].toppings %></span>
-		</li>
-		<% } %>
-	</ul>
+	<div class="container">
+		<div class="half">
+			<div class="box">
+				<h2>Ola, Make a Taco: </h2>
+				<div id="form1">
+					<input type="text" placeholder="name" name="name">
+					<!-- <input style="width:40%" type="text" placeholder="toppings" name="toppings"> -->
+					<div class="row">
+						<label class="check">
+							<input type="checkbox" name="chicken"> Chicken
+						</label>
+						<label class="check">
+							<input type="checkbox" name="pork"> Pork
+						</label>
+						<label class="check">
+							<input type="checkbox" name="beef"> Beef
+						</label>
+					</div>
+					<div class="row">
+						<label class="check">
+							<input type="checkbox" name="lettuce"> Lettuce
+						</label>
+						<label class="check">
+							<input type="checkbox" name="tomato"> Tomato
+						</label>
+						<label class="check">
+							<input type="checkbox" name="onion"> Onion
+						</label>
+					</div>
+					<div class="row">
+						<label class="check">
+							<input type="checkbox" name="cheese"> Cheese
+						</label>
+						<label class="check">
+							<input type="checkbox" name="rice"> Rice
+						</label>
+						<label class="check">
+							<input type="checkbox" name="hot sauce"> Hot Sauce
+						</label>
+					</div>
+					<button id="create-button">Make a taco</button>
+				</div>
+			</div>
+			<div class="box">
+				<h2>Unleash Edgar</h2>
+				<p>Edgar is a messy monkey that likes to fling poop.</p>
+				<p>He'll fling poop whether there's a taco or not.</p>
+				<button id="update-button">Let Edgar ruin a taco</button>
+			</div>
+			<div class="box">
+				<h2>Fix Edgar's Mess</h2>
+				<p>Don't you think it's time to stop enabling that crazy monkey?</p>
+				<p>Clean up his mess, and think about what you've done!</p>
+				<button id="delete-button">Clean up after Edgar</button>
+			</div>
+		</div>
+		<div class="half">
+			<div class="box">
+				<h2>Tacos:</h2>
+				<div id="message" class="message"></div>
+				<ul class="tacos">
+					<% for (var i = 0; i < tacos.length; i++) { %>
+					<li class="taco">
+						<span><%= tacos[i].name %></span>:
+						<span><%= tacos[i].toppings %></span>
+					</li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
+
+	</div>
 	<script type="text/javascript" src="/main.js"></script>
 </body>
 </html>

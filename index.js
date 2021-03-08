@@ -34,7 +34,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
 		console.log('EYYY TACCOOOOOOOOOOOOOOOOSSSS!');
 		tacosCollection.insertOne(req.body)
 			.then(result => {
-				res.redirect('/');
+				res.json('Success');
 			})
 			.catch(error => console.error(error));
 	});
@@ -66,7 +66,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
 			.catch(error => console.error(error));
 	});
 
-	app.listen(3000, () => { console.log('listening on 3000') });
+	app.listen(3001, () => { console.log('listening on 3001') });
 	
 })
 .catch(error => console.error(error));
