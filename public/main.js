@@ -48,7 +48,7 @@ updateButton.addEventListener('click', _ => {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
 			name: 'Edgar',
-			toppings: 'Edgar\'s Poop'
+			toppings: ['Edgar\'s Poop']
 		})
 	})
 		.then(res => {

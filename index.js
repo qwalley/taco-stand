@@ -1,73 +1,69 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+const Taco = require('./models/Taco');
 const uri = require('./crabby_patty_recipe.json').mongo_uri;
 
-MongoClient.connect(uri, { useUnifiedTopology: true })
-.then(client => {
-	// DB Creation
-	console.log('Connected to Database');
-	const db = client.db('taco-info');
-	const tacosCollection = db.collection('tacos');
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+	.then(_ => console.log('Database connected'))
+	.catch(error => console.error('Error making connection: ', error));
 
-	// set templating engine
-	app.set('view engine', 'ejs');
+const db = mongoose.connection;
 
-	// Middleware
-	app.use(express.static('public'));
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: true }));
+db.on('error', error => {
+	console.error('Connection error: ', error);
+});
 
-	// GET
-	app.get('/', (req, res) => {
-		tacosCollection.find().toArray()
-			.then(results => { 
+// set templating engine
+app.set('view engine', 'ejs');
 
-				res.render('index.ejs', { tacos: results });
-			})
-			.catch(error => console.error(error));
-	});
+// Middleware
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-	// POST
-	app.post('/tacos', (req, res) => {
-		console.log('EYYY TACCOOOOOOOOOOOOOOOOSSSS!');
-		tacosCollection.insertOne(req.body)
-			.then(result => {
-				res.json('Success');
-			})
-			.catch(error => console.error(error));
-	});
+// GET
+app.get('/', (req, res) => {
+	Taco.find()
+		.then(results => { 
+			res.render('index.ejs', { tacos: results });
+		})
+		.catch(error => console.error(error));
+});
 
-	// PUT
-	app.put('/tacos', (req, res) => {
-		tacosCollection.findOneAndUpdate(
-			{ name: { $not: { $eq: 'Edgar' } } },
-			{ $set: { name: req.body.name, toppings: req.body.toppings } },
-			{ upsert: true }
-		)
-			.then(result => { 
-				res.json('Success');
-			})
-			.catch(error => console.error(error));
-	});
+// POST
+app.post('/tacos', (req, res) => {
+	Taco.create(req.body)
+		.then(doc => {
+			res.json('Success');
+		})
+		.catch(error => console.error(error));
+});
 
-	// DELTE
-	app.delete('/tacos', (req, res) => {
-		tacosCollection.deleteOne(
-			{ name: req.body.name },
-		)
-			.then(result => { 
-				if (result.deletedCount === 0) {
-					return res.json('No poop to clean up');
-				}
-				res.json('Cleaned up Edgar\'s poop');
-			})
-			.catch(error => console.error(error));
-	});
+// PUT
+app.put('/tacos', (req, res) => {
+	Taco.findOneAndUpdate(
+		{ name: { $not: { $eq: 'Edgar' } } },
+		{ $set: req.body },
+		{ upsert: true }
+	)
+		.then(result => { 
+			res.json('Success');
+		})
+		.catch(error => console.error(error));
+});
 
-	app.listen(3001, () => { console.log('listening on 3001') });
-	
-})
-.catch(error => console.error(error));
+// DELETE
+app.delete('/tacos', (req, res) => {
+	Taco.deleteOne({ name: req.body.name })
+		.then(result => { 
+			if (result.deletedCount === 0) {
+				return res.json('No poop to clean up');
+			}
+			res.json('Cleaned up Edgar\'s poop');
+		})
+		.catch(error => console.error(error));
+});
 
+app.listen(3001, () => { console.log('listening on 3001') });
