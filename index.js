@@ -44,6 +44,11 @@ app.get('/', aw(async (req, res) => {
 	res.render('index.ejs', { tacos: results });
 }));
 
+app.get('/tacos', aw(async (req, res) => {
+	const results = await Taco.find();
+	res.json(results);
+}));
+
 // POST
 app.post('/tacos', aw(async (req, res) => {
 	const result = await Taco.create(req.body)
