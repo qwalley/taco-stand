@@ -16,6 +16,14 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 	.then(_ => console.log('Database connected'))
 	.catch(error => console.error('Error making connection: ', error));
 
+// close db connection on 'Ctrl + C'
+process.on('SIGINT', () => {
+	mongoose.connection.close(() => {
+		console.log('mongoose connection closed.');
+		process.exit(0);
+	})
+})
+
 const db = mongoose.connection;
 
 db.on('error', error => {
@@ -61,4 +69,5 @@ app.delete('/tacos', aw(async (req, res, next) => {
 	res.json('Cleaned up Edgar\'s poop');	
 }));
 
-app.listen(3001, () => { console.log('listening on 3001') });
+// app.listen(3001, () => { console.log('listening on 3001') });
+module.exports = app;
