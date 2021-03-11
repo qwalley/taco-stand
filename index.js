@@ -43,7 +43,6 @@ app.get('/', aw(async (req, res) => {
 	const results = await Taco.find();
 	res.render('index.ejs', { tacos: results });
 }));
-
 app.get('/tacos', aw(async (req, res) => {
 	const results = await Taco.find();
 	res.json(results);
@@ -52,7 +51,7 @@ app.get('/tacos', aw(async (req, res) => {
 // POST
 app.post('/tacos', aw(async (req, res) => {
 	const result = await Taco.create(req.body)
-	res.json('Success');		
+	res.send('Success');		
 }));
 
 // PUT
@@ -62,16 +61,16 @@ app.put('/tacos', aw(async (req, res, next) => {
 		{ $set: req.body },
 		{ upsert: true }
 	);
-	res.json('Success');
+	res.send('Success');
 }));
 
 // DELETE
 app.delete('/tacos', aw(async (req, res, next) => {
 	const result = await Taco.deleteOne({ name: req.body.name })
 	if (result.deletedCount === 0) {
-		return res.json('No poop to clean up');
+		return res.send('No poop to clean up');
 	}
-	res.json('Cleaned up Edgar\'s poop');	
+	res.send('Cleaned up Edgar\'s poop');	
 }));
 
 // app.listen(3001, () => { console.log('listening on 3001') });
