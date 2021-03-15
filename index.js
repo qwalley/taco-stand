@@ -30,18 +30,18 @@ app.get('/tacos', aw(async (req, res) => {
 
 // POST
 app.post('/tacos', aw(async (req, res) => {
-	const result = await Taco.create(req.body)
-	res.send('Success');		
+	const results = await Taco.create(req.body)
+	res.json(results);		
 }));
 
 // PUT
 app.put('/tacos', aw(async (req, res, next) => {
-	const result = await Taco.findOneAndUpdate(
+	const results = await Taco.findOneAndUpdate(
 		{ name: { $not: { $eq: 'Edgar' } } },
 		{ $set: req.body },
-		{ upsert: true }
+		{ upsert: true, new: true }
 	);
-	res.send('Success');
+	res.json(results);
 }));
 
 // DELETE
