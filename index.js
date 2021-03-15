@@ -1,9 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const mongoose = require('mongoose');
 const Taco = require('./models/Taco');
-const uri = require('./crabby_patty_recipe.json').mongo_uri;
 
 // define Async Wrapper that catches errors throw by 'await's and passes them to Express handler
 function aw (callback) {
@@ -11,24 +9,6 @@ function aw (callback) {
 		callback(req, res, next).catch(next);
 	}
 }
-
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-	.then(_ => console.log('Database connected'))
-	.catch(error => console.error('Error making connection: ', error));
-
-// close db connection on 'Ctrl + C'
-process.on('SIGINT', () => {
-	mongoose.connection.close(() => {
-		console.log('mongoose connection closed.');
-		process.exit(0);
-	})
-})
-
-const db = mongoose.connection;
-
-db.on('error', error => {
-	console.error('Connection error: ', error);
-});
 
 // set templating engine
 app.set('view engine', 'ejs');
